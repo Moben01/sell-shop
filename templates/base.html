@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+        {% include 'head.html' %}
+        {% load django_htmx %}
+       
+    <body>
+
+        {% block header %}
+        {% include 'header.html' %}
+        {% endblock %}
+
+        {% block content %}{% endblock %}
+        {% include 'scripts.html' %}
+           {% block footer %}
+        {% include 'footer.html' %}
+        {% endblock %}
+        
+        {% block extra_scripts %}{% endblock %}
+
+    </body>
+</html>

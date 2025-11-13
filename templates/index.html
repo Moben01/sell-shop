@@ -1,0 +1,647 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+    <section class="section-hero margin-b-50">
+        <div class="bb-social-follow">
+            <ul class="inner-links">
+                <li>
+                    <a href="javascript:void(0)">Fb</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)">Li</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)">Dr</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)">In</a>
+                </li>
+            </ul>
+        </div>
+        <div class="container">
+            <div class="row">
+<div class="col-12">
+    <div class="hero-slider swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide slide-1">
+                <div class="row mb-minus-24">
+                    <div class="col-lg-6 col-12 order-lg-1 order-2 mb-24">
+                        <div class="hero-contact">
+                            <p>Flat 30% Off</p>
+                            <h1>Explore <span>Stylish</span><br> & Cozy Jumpers</h1>
+                            <a href="{% url 'products:shop' %}" class="bb-btn-1">Shop Now</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-12 order-lg-2 order-1 mb-24">
+                        <div class="hero-image">
+                            <img src="{% static 'assets/img/hero/Adobe Express - file.png' %}" alt="hero">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" class="animate-shape">
+                                <linearGradient id="shape_1" x1="100%" x2="0%" y1="100%" y2="0%">
+                                </linearGradient>
+                                <path d="">
+                                    <animate repeatCount="indefinite" attributeName="d" dur="15s" values="" />
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide slide-2">
+                <div class="row mb-minus-24">
+                    <div class="col-lg-6 col-12 order-lg-1 order-2 mb-24">
+                        <div class="hero-contact">
+                            <p>Flat 20% Off</p>
+                            <h2>Explore <span>Warm</span><br> Jumpers & Hoodies</h2>
+                            <a href="shop-left-sidebar-col-3.html" class="bb-btn-1">Shop Now</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-12 order-lg-2 order-1 mb-24">
+                        <div class="hero-image">
+                            <img src="{% static 'assets/img/hero/Adobe Express - file (1).png' %}" alt="hero">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" class="animate-shape">
+                                <linearGradient id="shape_2" x1="80%" x2="0%" y1="80%" y2="0%">
+                                </linearGradient>
+                                <path d="">
+                                    <animate repeatCount="indefinite" attributeName="d" dur="15s" values="" />
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide slide-3">
+                <div class="row mb-minus-24">
+                    <div class="col-lg-6 col-12 order-lg-1 order-2 mb-24">
+                        <div class="hero-contact">
+                            <p>Flat 30% Off</p>
+                            <h2>Explore <span>Trendy</span><br> Jumpers & Sweaters</h2>
+                            <a href="shop-left-sidebar-col-3.html" class="bb-btn-1">Shop Now</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-12 order-lg-2 order-1 mb-24">
+                        <div class="hero-image">
+                            <img src="{% static 'assets/img/hero/Adobe Express - file (2).png' %}" alt="hero">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" class="animate-shape">
+                                <linearGradient id="shape_3" x1="80%" x2="0%" y1="80%" y2="0%">
+                                </linearGradient>
+                                <path d="">
+                                    <animate repeatCount="indefinite" attributeName="d" dur="15s" values="" />
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-pagination swiper-pagination-white"></div>
+        <div class="swiper-buttons">
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="bb-scroll-Page">
+            <span class="scroll-bar">
+                <a href="javascript:void(0)">Scroll Page</a>
+            </span>
+        </div>
+    </section>
+<section class="section-category padding-tb-50">
+        <div class="container">
+            <div class="row mb-minus-24">
+                <div class="col-lg-5 col-12 mb-24">
+                    <div class="bb-category-img">
+                        <img src="{% static 'assets/img/category/NEW.png' %}" alt="category">
+                        <div class="bb-offers">
+                            <span>50% Off</span>
+                        </div>
+                    </div>
+                </div>
+<div class="col-lg-7 col-12 mb-24">
+  <div class="bb-category-contact shadow-sm bg-white rounded p-3">
+
+    <!-- Section Title -->
+    <div class="category-title text-center mb-4" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
+      <h2 class="fw-bold text-uppercase mb-2">Explore Categories</h2>
+      <p class="text-muted small mb-0">Discover products from every category you love</p>
+    </div>
+
+    <!-- Dynamic Categories Carousel -->
+    <div class="bb-category-block owl-carousel">
+      {% for item in categories %}
+      <div class="bb-category-box category-items-{{ forloop.counter }} card border-0 text-center p-3"
+           data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="{{ forloop.counter|add:'1' }}00">
+
+        <!-- Category Image -->
+        <div class="position-relative mb-3">
+          <a href="{% url 'products:category_products' item.category.slug %}">
+            {% if item.category.image %}
+              <img src="{{ item.category.image.url }}" alt="{{ item.category.name }}" 
+                   class="img-fluid rounded w-100" style="height: 180px; object-fit: cover;">
+            {% else %}
+              <img src="{% static 'assets/img/placeholder-category.svg' %}" alt="{{ item.category.name }}" 
+                   class="img-fluid rounded w-100" style="height: 180px; object-fit: cover;">
+            {% endif %}
+          </a>
+
+          {% if item.discount_percent %}
+          <span class="badge bg-danger position-absolute top-0 start-0 m-2 px-2 py-1">
+            {{ item.discount_percent }}% OFF
+          </span>
+          {% endif %}
+        </div>
+
+        <!-- Category Info -->
+        <div class="category-sub-contact">
+          <h5 class="fw-semibold mb-1">
+            <a href="{% url 'products:category_products' item.category.slug %}" class="text-dark text-decoration-none">
+              {{ item.category.name }}
+            </a>
+          </h5>
+          <p class="text-muted small mb-2">{{ item.product_count }} items available</p>
+
+          <a href="{% url 'products:category_products' item.category.slug %}" class="btn btn-outline-primary btn-sm rounded-pill px-3">
+            View Products
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+
+            </div>
+        </div>
+    </section>
+
+    <!-- New Product tab Area -->
+    <section class="section-product-tabs padding-tb-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-title bb-deal" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                        <div class="section-detail">
+                            <h2 class="bb-title">New <span>Arrivals</span></h2>
+                            <p>Shop online for new arrivals and get free shipping!</p>
+                        </div>
+                        <div class="bb-pro-tab">
+                            <ul class="bb-pro-tab-nav nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#all">All</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-bs-toggle="tab" href="#snack">Snack & Spices</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#fruit">Fruits</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#veg">Vegetables</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-minus-24">
+                <div class="col">
+                    <div class="tab-content">
+                        <!-- 1st Product tab start -->
+
+                        <!-- 2nd Product tab start -->
+<div class="tab-pane fade show active" id="snack">
+  <div class="row">
+    {% for i in marked_products %}
+    <div class="col-xl-3 col-md-4 col-6 mb-24 bb-product-box" 
+         data-aos="fade-up" data-aos-duration="1000" data-aos-delay="{{ forloop.counter|add:'1' }}00">
+
+      <div class="bb-pro-box" 
+           data-original-main="{{ i.first_variant.image.url }}" 
+           data-original-hover="{{ i.first_variant.image_hover.url }}">
+
+        <!-- Product Image Section -->
+        <div class="bb-pro-img position-relative">
+          <span class="flags">
+            {% if i.is_new %}
+              <span class="bg-success text-white px-2 py-1 rounded small">New</span>
+            {% elif i.has_discount %}
+              <span class="bg-danger text-white px-2 py-1 rounded small">Sale</span>
+            {% else %}
+              <span class="bg-warning text-white px-2 py-1 rounded small">Hot</span>
+            {% endif %}
+          </span>
+
+          <a href="{% url 'products:product_details' i.product.id %}">
+            <div class="inner-img">
+              <img class="main-img img-fluid rounded" 
+                   src="{{ i.first_variant.image.url }}" 
+                   alt="{{ i.product.name }}" 
+                   style="width:100%; height:250px; object-fit:cover;">
+              <img class="hover-img img-fluid rounded" 
+                   src="{{ i.first_variant.image_hover.url }}" 
+                   alt="{{ i.product.name }}" 
+                   style="width:100%; height:250px; object-fit:cover;">
+            </div>
+          </a>
+
+          <!-- Product Actions -->
+          <ul class="bb-pro-actions list-unstyled mb-0">
+            <li class="bb-btn-group">
+              <a href="javascript:void(0)" class="mn-wishlist" title="Wishlist">
+                <i class="ri-heart-line"></i>
+              </a>
+            </li>
+            <li class="bb-btn-group">
+              <a href="javascript:void(0)" title="Quick View" data-link-action="quickview"
+                 data-bs-toggle="modal" data-bs-target="#quickview_modal">
+                <i class="ri-eye-line"></i>
+              </a>
+            </li>
+            <li class="bb-btn-group">
+              <a href="javascript:void(0)" title="Compare">
+                <i class="ri-repeat-line"></i>
+              </a>
+            </li>
+            <li class="bb-btn-group">
+              <a href="javascript:void(0)" class="mn-add-cart" title="Add To Cart">
+                <i class="ri-shopping-bag-4-line"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Product Info Section -->
+        <div class="bb-pro-contact mt-3">
+          <div class="bb-pro-subtitle d-flex justify-content-between align-items-center">
+            <a href="{% url 'products:category_products' i.product.category.slug %}" class="text-muted small">
+              {{ i.product.category.name }}
+            </a>
+            <span class="bb-pro-rating text-warning">
+              <i class="ri-star-fill"></i>
+              <i class="ri-star-fill"></i>
+              <i class="ri-star-fill"></i>
+              <i class="ri-star-fill"></i>
+              <i class="ri-star-line"></i>
+            </span>
+          </div>
+
+          <h5 class="bb-pro-title mt-2 mb-2">
+            <a href="{% url 'products:product_details' i.product.id %}" class="text-dark text-decoration-none">
+              {{ i.product.name }}
+            </a>
+          </h5>
+
+          <div class="bb-price mb-2">
+            <div class="inner-price">
+              {% if i.has_discount %}
+                <span class="new-price fw-bold text-primary">${{ i.final_price|floatformat:2 }}</span>
+                <span class="old-price text-muted text-decoration-line-through">${{ i.original_price|floatformat:2 }}</span>
+              {% else %}
+                <span class="new-price fw-bold text-primary">${{ i.final_price|floatformat:2 }}</span>
+              {% endif %}
+            </div>
+            {% if i.first_variant.size %}
+            <span class="last-items small">{{ i.first_variant.size }}</span>
+            {% endif %}
+          </div>
+
+          <!-- Color Variants -->
+          <div class="mn-pro-option d-flex justify-content-between align-items-center">
+            <div class="mn-pro-color">
+              <ul class="mn-opt-swatch mn-change-img list-inline mb-0">
+                {% for c in i.colors %}
+                <li class="list-inline-item">
+                  <a href="javascript:void(0);" class="mn-opt-clr-img"
+                     data-src="{{ c.image }}" data-src-hover="{{ c.image_hover }}"
+                     data-tooltip="{{ c.name }}">
+                    <span style="background-color: {{ c.code }}; display:inline-block; width:16px; height:16px; border-radius:50%;"></span>
+                  </a>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Dynamic Color Preview Script -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll(".mn-opt-clr-img").forEach(option => {
+    option.addEventListener("mouseenter", function() {
+      const card = this.closest(".bb-pro-box");
+      const mainImg = card.querySelector(".main-img");
+      const hoverImg = card.querySelector(".hover-img");
+      mainImg.src = this.getAttribute("data-src");
+      hoverImg.src = this.getAttribute("data-src-hover");
+    });
+    option.addEventListener("mouseleave", function() {
+      const card = this.closest(".bb-pro-box");
+      const mainImg = card.querySelector(".main-img");
+      const hoverImg = card.querySelector(".hover-img");
+      mainImg.src = card.dataset.originalMain;
+      hoverImg.src = card.dataset.originalHover;
+    });
+  });
+});
+</script>
+
+                        <!-- 3rd Product tab start -->
+
+                        <!-- 4th Product tab start -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   <!-- Day of the deal -->
+
+
+    <!-- Banner-one -->
+
+
+    <!-- Banner-two -->
+
+
+
+    <!-- Services -->
+    <section class="section-services padding-tb-50">
+        <div class="container">
+            <div class="row mb-minus-24">
+                <div class="col-lg-3 col-md-6 col-12 mb-24" data-aos="flip-up" data-aos-duration="1000"
+                    data-aos-delay="200">
+                    <div class="bb-services-box">
+                        <div class="services-img">
+                            <img src="{% static 'assets/img/services/1.png' %}" alt="services-1">
+                        </div>
+                        <div class="services-contact">
+                            <h4>Free Shipping</h4>
+                            <p>Free shipping on all Us order or above $200</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-12 mb-24" data-aos="flip-up" data-aos-duration="1000"
+                    data-aos-delay="400">
+                    <div class="bb-services-box">
+                        <div class="services-img">
+                            <img src="{% static 'assets/img/services/2.png' %}" alt="services-2">
+                        </div>
+                        <div class="services-contact">
+                            <h4>24x7 Support</h4>
+                            <p>Contact us 24 hours a day, 7 days a week</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-12 mb-24" data-aos="flip-up" data-aos-duration="1000"
+                    data-aos-delay="600">
+                    <div class="bb-services-box">
+                        <div class="services-img">
+                            <img src="{% static 'assets/img/services/3.png' %}" alt="services-3">
+                        </div>
+                        <div class="services-contact">
+                            <h4>30 Days Return</h4>
+                            <p>Simply return it within 30 days for an exchange</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-12 mb-24" data-aos="flip-up" data-aos-duration="1000"
+                    data-aos-delay="800">
+                    <div class="bb-services-box">
+                        <div class="services-img">
+                            <img src="{% static 'assets/img/services/4.png' %}" alt="services-4">
+                        </div>
+                        <div class="services-contact">
+                            <h4>Payment Secure</h4>
+                            <p>Contact us 24 hours a day, 7 days a week</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vendors -->
+    <!-- <section class="section-vendors padding-t-50 padding-b-100">
+        <div class="container">
+            <div class="row mb-minus-24">
+                <div class="col-12">
+                    <div class="section-title bb-center" data-aos="fade-up" data-aos-duration="1000"
+                        data-aos-delay="200">
+                        <div class="section-detail">
+                            <h2 class="bb-title">Top <span>Vendors</span></h2>
+                            <p>Discover Our Trusted Partners: Excllence & Reliability in Every choice</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-12 mb-24" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                    <div class="bb-vendors-img">
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="vendors_tab_one">
+                                <a href="javascript:void(0)" class="bb-vendor-init">
+                                    <i class="ri-arrow-right-up-line"></i>
+                                </a>
+                                <img src="{% static 'assets/img/vendors/img-1.jpg' %}" alt="vendors-img-1">
+                                <div class="vendors-local-shape">
+                                    <div class="inner-shape"></div>
+                                    <img src="{% static 'assets/img/vendors/vendor-1.jpg' %}" alt="vendor">
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="vendors_tab_two">
+                                <a href="javascript:void(0)" class="bb-vendor-init">
+                                    <i class="ri-arrow-right-up-line"></i>
+                                </a>
+                                <img src="{% static 'assets/img/vendors/img-2.jpg' %}" alt="vendors-img-2">
+                                <div class="vendors-local-shape">
+                                    <div class="inner-shape"></div>
+                                    <img src="{% static 'assets/img/vendors/vendor-2.jpg' %}" alt="vendor">
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="vendors_tab_three">
+                                <a href="javascript:void(0)" class="bb-vendor-init">
+                                    <i class="ri-arrow-right-up-line"></i>
+                                </a>
+                                <img src="{% static 'assets/img/vendors/img-3.jpg' %}" alt="vendors-img-3">
+                                <div class="vendors-local-shape">
+                                    <div class="inner-shape"></div>
+                                    <img src="{% static 'assets/img/vendors/vendor-3.jpg' %}" alt="vendor">
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="vendors_tab_four">
+                                <a href="javascript:void(0)" class="bb-vendor-init">
+                                    <i class="ri-arrow-right-up-line"></i>
+                                </a>
+                                <img src="{% static 'assets/img/vendors/img-4.jpg' %}" alt="vendors-img-4">
+                                <div class="vendors-local-shape">
+                                    <div class="inner-shape"></div>
+                                    <img src="{% static 'assets/img/vendors/vendor-4.jpg' %}" alt="vendor">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7 col-12 mb-24">
+                    <ul class="bb-vendors-tab-nav nav">
+                        <li class="nav-item" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#vendors_tab_one">
+                                <div class="bb-vendors-box">
+                                    <div class="inner-heading">
+                                        <h5>Mira Fashion Pvt. Ltd.</h5>
+                                        <span>Sales - 587</span>
+                                    </div>
+                                    <p>Fruits (5) | Vegetables (30) | Snacks (09) </p>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+                            <a class="nav-link" data-bs-toggle="tab" href="#vendors_tab_two">
+                                <div class="bb-vendors-box">
+                                    <div class="inner-heading">
+                                        <h5>Eelna Fashion Pvt. Ltd.</h5>
+                                        <span>Sales - 428</span>
+                                    </div>
+                                    <p>Fruits (8) | Vegetables (15) | Snacks (04) </p>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
+                            <a class="nav-link" data-bs-toggle="tab" href="#vendors_tab_three">
+                                <div class="bb-vendors-box">
+                                    <div class="inner-heading">
+                                        <h5>Mario Fashion Pvt. Ltd.</h5>
+                                        <span>Sales - 1024</span>
+                                    </div>
+                                    <p>Fruits (16) | Vegetables (42) | Snacks (18) </p>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="800">
+                            <a class="nav-link" data-bs-toggle="tab" href="#vendors_tab_four">
+                                <div class="bb-vendors-box">
+                                    <div class="inner-heading">
+                                        <h5>Maria Fashion Pvt. Ltd.</h5>
+                                        <span>Sales - 210</span>
+                                    </div>
+                                    <p>Fruits (2) | Vegetables (10) | Snacks (03) </p>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+    <!-- Testimonials -->
+    <!-- <section class="section-testimonials padding-tb-100 p-0-991">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="bb-testimonials" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+                        <img src="{% static 'assets/img/testimonials/img-1.png' %}" alt="testimonials-1" class="testimonials-img-1">
+                        <img src="{% static 'assets/img/testimonials/img-2.png' %}" alt="testimonials-2" class="testimonials-img-2">
+                        <img src="{% static 'assets/img/testimonials/img-3.png' %}" alt="testimonials-3" class="testimonials-img-3">
+                        <img src="{% static 'assets/img/testimonials/img-4.png' %}" alt="testimonials-4" class="testimonials-img-4">
+                        <img src="{% static 'assets/img/testimonials/img-5.png' %}" alt="testimonials-5" class="testimonials-img-5">
+                        <img src="{% static 'assets/img/testimonials/img-6.png' %}" alt="testimonials-6" class="testimonials-img-6">
+                        <div class="inner-banner">
+                            <h4>Testimonials</h4>
+                        </div>
+                        <div class="owl-carousel testimonials-slider">
+                            <div class="bb-testimonials-inner">
+                                <div class="row">
+                                    <div class="col-md-4 col-12 d-none-767">
+                                        <div class="testimonials-image">
+                                            <img src="{% static 'assets/img/testimonials/1.jpg' %}" alt="testimonials">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 col-12">
+                                        <div class="testimonials-contact">
+                                            <div class="user">
+                                                <img src="{% static 'assets/img/testimonials/1.jpg' %}" alt="testimonials">
+                                                <div class="detail">
+                                                    <h4>Isabella Oliver</h4>
+                                                    <span>(Manager)</span>
+                                                </div>
+                                            </div>
+                                            <div class="inner-contact">
+                                                <p>"Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto
+                                                    at sint eligendi possimus perspiciatis asperiores reiciendis hic
+                                                    amet alias aut quaerat maiores blanditiis."</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bb-testimonials-inner">
+                                <div class="row">
+                                    <div class="col-md-4 col-12 d-none-767">
+                                        <div class="testimonials-image">
+                                            <img src="{% static 'assets/img/testimonials/2.jpg' %}" alt="testimonials">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 col-12">
+                                        <div class="testimonials-contact">
+                                            <div class="user">
+                                                <img src="{% static 'assets/img/testimonials/2.jpg' %}" alt="testimonials">
+                                                <div class="detail">
+                                                    <h4>Nikki Albart</h4>
+                                                    <span>(Team Leader)</span>
+                                                </div>
+                                            </div>
+                                            <div class="inner-contact">
+                                                <p>"Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto
+                                                    at sint eligendi possimus perspiciatis asperiores reiciendis hic
+                                                    amet alias aut quaerat maiores blanditiis."</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bb-testimonials-inner">
+                                <div class="row">
+                                    <div class="col-md-4 col-12 d-none-767">
+                                        <div class="testimonials-image">
+                                            <img src="{% static 'assets/img/testimonials/3.jpg' %}" alt="testimonials">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 col-12">
+                                        <div class="testimonials-contact">
+                                            <div class="user">
+                                                <img src="{% static 'assets/img/testimonials/3.jpg' %}" alt="testimonials">
+                                                <div class="detail">
+                                                    <h4>Stephen Smith</h4>
+                                                    <span>(Co Founder)</span>
+                                                </div>
+                                            </div>
+                                            <div class="inner-contact">
+                                                <p>"Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto
+                                                    at sint eligendi possimus perspiciatis asperiores reiciendis hic
+                                                    amet alias aut quaerat maiores blanditiis."</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+    <!-- Blog -->
+
+
+{% endblock %}

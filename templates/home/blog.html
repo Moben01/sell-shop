@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Blog Page Section -->
+<section class="section-blog padding-tb-50">
+    <div class="container">
+        <div class="row mb-minus-24">
+
+            <!-- Section Title -->
+            <div class="col-12">
+                <div class="section-title bb-center" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                    <div class="section-detail">
+                        <h2 class="bb-title">Our <span>Blog</span></h2>
+                        <p>Stay updated with the latest insights, trends, and ideas from our blog.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dynamic Blog Loop -->
+            {% for blog in blogs_record %}
+            <div class="col-lg-4 col-md-6 col-12 mb-24" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="{{ forloop.counter|add:'2' }}00">
+                <div class="bb-blog-card">
+                    <div class="blog-image">
+                        {% if blog.image %}
+                        <a href="{% url 'home:blog_detail' blog.slug %}">
+                            <img src="{{ blog.image.url }}" alt="{{ blog.title }}">
+                        </a>
+                        {% else %}
+                        <a href="{% url 'home:blog_detail' blog.slug %}">
+                            <img src="{% static 'assets/img/blog/default.jpg' %}" alt="default image">
+                        </a>
+                        {% endif %}
+                    </div>
+                    <div class="blog-contact">
+                        <h5>
+                            <a href="{% url 'home:blog_detail' blog.slug %}">
+                                {{ blog.title }}
+                            </a>
+                        </h5>
+                        <p>{{ blog.short_description|truncatewords:25 }}</p>
+                        <div class="blog-btn">
+                            <a href="{% url 'home:blog_detail' blog.slug %}" class="bb-btn-2">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p>No blog posts available yet.</p>
+            </div>
+            {% endfor %}
+
+            <!-- Pagination -->
+            {% if blogs_record.has_other_pages %}
+            <div class="col-12">
+                <div class="bb-pro-pagination">
+                    <p>Showing {{ blogs_record.start_index }} - {{ blogs_record.end_index }} of {{ blogs_record.paginator.count }} item(s)</p>
+                    <ul>
+                        {% if blogs_record.has_previous %}
+                        <li><a href="?page={{ blogs_record.previous_page_number }}">Prev</a></li>
+                        {% endif %}
+
+                        {% for page_num in blogs_record.paginator.page_range %}
+                            {% if blogs_record.number == page_num %}
+                            <li class="active"><a href="javascript:void(0)">{{ page_num }}</a></li>
+                            {% else %}
+                            <li><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if blogs_record.has_next %}
+                        <li><a href="?page={{ blogs_record.next_page_number }}" class="next">Next <i class="ri-arrow-right-s-line"></i></a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

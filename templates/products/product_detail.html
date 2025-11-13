@@ -1,0 +1,455 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <section class="section-breadcrumb margin-b-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="row bb-breadcrumb-inner">
+                        <div class="col-md-6 col-sm-12">
+                            <h2 class="bb-breadcrumb-title">product Page</h2>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <ul class="bb-breadcrumb-list">
+                                <li class="bb-breadcrumb-item"><a href="index.html">Home</a></li>
+                                <li><i class="ri-arrow-right-double-fill"></i></li>
+                                <li class="bb-breadcrumb-item active">product Page</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- product page -->
+    <section class="section-product padding-tb-50">
+        <div class="container">
+            <div class="row mb-minus-24">
+                <div class="col-lg-9 col-12 mb-24">
+                    <div class="bb-single-pro">
+<div class="row">
+    <!-- Product Images -->
+    <div class="col-lg-5 col-12 mb-24">
+        <div class="single-pro-slider">
+            <div class="single-product-cover">
+                {% for img in variant_images %}
+                    <div class="single-slide zoom-image-hover">
+                        <img class="img-responsive" src="{{ img.url }}" alt="{{ img.alt_text|default:product.name }}" style="width:100%; height:350px; object-fit:cover;">
+                    </div>
+                {% empty %}
+                    <div class="single-slide">
+                        <img class="img-responsive" src="{% static 'assets/img/no-image.png' %}" alt="No image available" style="width:100%; height:350px; object-fit:cover;">
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="single-nav-thumb">
+                {% for img in variant_images %}
+                    <div class="single-slide">
+                        <img class="img-responsive" src="{{ img.url }}" alt="{{ img.alt_text|default:product.name }}" style="width:100%; height:80px; object-fit:cover;">
+                    </div>
+                {% empty %}
+                    <div class="single-slide">
+                        <img class="img-responsive" src="{% static 'assets/img/no-image.png' %}" alt="No image available" style="width:100%; height:80px; object-fit:cover;">
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Details -->
+    <div class="col-lg-7 col-12 mb-24">
+        <div class="bb-single-pro-contact">
+            <div class="bb-sub-title">
+                <h4>{{ product.name }}</h4>
+            </div>
+
+            <!-- Ratings -->
+            <div class="bb-single-rating">
+                <span class="bb-pro-rating">
+                    {% for i in "12345" %}
+                        {% if forloop.counter <= product.average_rating %}
+                            <i class="ri-star-fill"></i>
+                        {% else %}
+                            <i class="ri-star-line"></i>
+                        {% endif %}
+                    {% endfor %}
+                </span>
+                <span class="bb-read-review">
+                    | <a href="#mn-spt-nav-review">{{ product_reviews|length }} Ratings</a>
+                </span>
+            </div>
+
+            <!-- Short Description -->
+            <p>{{ product.description|truncatewords:30 }}</p>
+
+            <!-- Price & Stock -->
+            <div class="bb-single-price-wrap">
+                <div class="bb-single-price">
+                    <div class="price">
+                        <h5>
+                            {% if discount_percent > 0 %}
+                                ${{ final_price|floatformat:2 }} <span>-{{ discount_percent }}%</span>
+                            {% else %}
+                                ${{ original_price|floatformat:2 }}
+                            {% endif %}
+                        </h5>
+                    </div>
+                    <div class="mrp">
+                        <p>M.R.P. : <span>${{ original_price|floatformat:2 }}</span></p>
+                    </div>
+                </div>
+                <div class="bb-single-price">
+                    <div class="sku">
+                        <h5>SKU#: {{ product.sku }}</h5>
+                    </div>
+                    <div class="stock">
+                        {% if variant.stock > 0 %}
+                            <span class="text-success">In stock</span>
+                        {% else %}
+                            <span class="text-danger">Out of stock</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Attributes -->
+            <div class="bb-single-list">
+                <ul>
+                    {% for attr in product.attributes %}
+                        <li><span>{{ attr.name }}:</span> {{ attr.value }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Weight / Size Selection -->
+            <div class="bb-single-pro-weight">
+                <div class="pro-title"><h4>Size</h4></div>
+                <div class="bb-pro-variation-contant">
+                    <form method="post" action="{% url 'products:product_details' product.id %}">
+                        {% csrf_token %}
+                        <ul>
+                            {% for size in sizes %}
+                                <li class="{% if selected_size and size.id == selected_size.id %}active-variation{% endif %}">
+                                    <button type="submit" name="size_id" value="{{ size.id }}" style="border:none; background:none; cursor:pointer;">
+                                        <span>{{ size.size }}</span>
+                                    </button>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Color Selection -->
+            <div class="bb-single-pro-color mt-2">
+                <form method="post" action="{% url 'products:product_details' product.id %}">
+                    {% csrf_token %}
+                    <div style="display:flex; gap:5px;">
+                        {% for color in colors %}
+                            <button type="submit" name="color_id" value="{{ color.id }}"
+                                style="width:28px; height:28px; border-radius:50%; border: {% if selected_color and selected_color.id == color.id %}2px solid black{% else %}1px solid #ccc{% endif %}; background-color: {{ color.color }};"
+                                class="color-selector"
+                                data-main-img="{{ color.image }}"
+                                data-hover-img="{{ color.image_hover }}">
+                            </button>
+                        {% endfor %}
+                    </div>
+                </form>
+            </div>
+
+            <!-- Quantity & Buttons -->
+            <div class="bb-single-qty mt-3 d-flex align-items-center gap-2">
+                <div class="qty-plus-minus">
+                    <input class="qty-input" type="text" name="quantity" value="1">
+                </div>
+                <div class="buttons">
+                    <a href="https://wa.me/4915756500402?text={{ 'Hello! I am interested in this product: '|add:product.name|add:'%0ACheck it here: '|add:request.build_absolute_uri|urlencode }}" 
+                    target="_blank" 
+                    title="Share on WhatsApp" 
+                    class="bb-btn-2">
+                        <i class="ri-whatsapp-line"></i> WhatsApp
+                    </a>
+                </div>
+
+
+                <ul class="bb-pro-actions d-flex gap-1">
+                    <li class="bb-btn-group">
+                        <a href="{% url 'products:toggle_like' product.id %}">
+                            <i class="ri-heart{% if user in product.liked_by.all %}-fill{% else %}-line{% endif %}"></i>
+                        </a>
+                    </li>
+                    <li class="bb-btn-group">
+                        <a href="javascript:void(0)" data-link-action="quickview" title="Quick view" data-bs-toggle="modal" data-bs-target="#bry_quickview_modal">
+                            <i class="ri-eye-line"></i>
+                        </a>
+                    </li>
+
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JS for color image swap -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const colorButtons = document.querySelectorAll(".color-selector");
+    colorButtons.forEach(btn => {
+        btn.addEventListener("mouseenter", function() {
+            const mainImg = document.querySelector(".single-product-cover .single-slide:first-child img");
+            const hoverImg = document.querySelector(".single-product-cover .single-slide:first-child img"); // same main for hover swap if needed
+            mainImg.src = this.dataset.mainImg;
+            hoverImg.src = this.dataset.hoverImg;
+        });
+        btn.addEventListener("mouseleave", function() {
+            const mainImg = document.querySelector(".single-product-cover .single-slide:first-child img");
+            mainImg.src = "{{ variant_images.0.url }}"; // fallback to first variant image
+        });
+    });
+});
+</script>
+
+                    </div>
+<div class="bey-single-accordion">
+    <div class="accordion" id="accordionExample">
+
+        <!-- Product Detail -->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Product Detail
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div class="bb-details">
+                        <p>{{ product.description }}</p>
+                        <div class="details-info">
+                            <ul>
+                                {% for feature in product.features %}
+                                    <li>{{ feature }}</li>
+                                {% endfor %}
+                            </ul>
+                            <ul>
+                                <li><span>Highlights</span> {{ product.highlights }}</li>
+                                <li><span>Seller</span> {{ product.seller }}</li>
+                                <li><span>Services</span> {{ product.services }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Information -->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Information
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div class="information">
+                        <ul>
+                          
+                            <li><span>Color</span>
+                                {% for color in colors %}
+                                    {{ color.name }}{% if not forloop.last %},{% endif %}
+                                {% endfor %}
+                            </li>
+                            <li><span>Brand</span> {{ product.brand }}</li>
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews -->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Reviews
+                </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div class="bb-reviews">
+                        {% for review in product_reviews %}
+                        <div class="reviews-bb-box">
+                            <div class="inner-image">
+                                <img src="{{ review.image.url }}" alt="{{ review.name }}">
+                            </div>
+                            <div class="inner-contact">
+                                <h4>{{ review.name }}</h4>
+                                <div class="bb-pro-rating">
+                                    {% for i in "12345" %}
+                                        {% if forloop.counter <= review.rating %}
+                                            <i class="ri-star-fill"></i>
+                                        {% else %}
+                                            <i class="ri-star-fill grey"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <p>{{ review.detail }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="bb-reviews-form">
+                        <h3>Add a Review</h3>
+                        <form action="{% url 'products:submit_review' product.id %}" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="bb-review-rating">
+                                <span>Your rating:</span>
+                                <div class="bb-pro-rating" id="rating-stars">
+                                    <i class="ri-star-fill" data-value="1"></i>
+                                    <i class="ri-star-fill" data-value="2"></i>
+                                    <i class="ri-star-fill" data-value="3"></i>
+                                    <i class="ri-star-fill" data-value="4"></i>
+                                    <i class="ri-star-fill" data-value="5"></i>
+                                </div>
+                                <input type="hidden" name="rating" id="rating-value" value="5">
+                            </div>
+                            <div class="input-box">
+                                <input type="text" name="your-name" placeholder="Name" required>
+                            </div>
+                            <div class="input-box">
+                                <input type="file" name="your-image" accept="image/*">
+                            </div>
+                            <div class="input-box">
+                                <textarea name="your-comment" placeholder="Enter Your Comment"></textarea>
+                            </div>
+                            <div class="input-button">
+                                <button type="submit" class="bb-btn-2">Submit Review</button>
+                            </div>
+                        </form>
+
+                        <script>
+                        const stars = document.querySelectorAll('#rating-stars i');
+                        const ratingInput = document.getElementById('rating-value');
+
+                        stars.forEach(star => {
+                            star.addEventListener('click', function() {
+                                const value = this.getAttribute('data-value');
+                                ratingInput.value = value;
+                                stars.forEach(s => {
+                                    s.classList.toggle('grey', s.getAttribute('data-value') > value);
+                                });
+                            });
+                        });
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Related product section -->
+<section class="section-related-product padding-tb-50">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-title bb-center" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                    <div class="section-detail">
+                        <h2 class="bb-title">Related <span>Product</span></h2>
+                        <p>Browse The Collection of Top Products.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="bb-deal-slider">
+                    <div class="bb-deal-block owl-carousel">
+                        {% for product in related_products %}
+                        <div class="bb-deal-card" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="{{ forloop.counter0|add:'200' }}">
+                            <div class="bb-pro-box">
+                                <div class="bb-pro-img">
+                                    {% if product.badge %}
+                                    <span class="flags"><span>{{ product.badge }}</span></span>
+                                    {% endif %}
+                                    <a href="">
+                                        <div class="inner-img">
+                                            <img class="main-img" src="{{ product.main_image.url }}" alt="{{ product.name }}">
+                                            {% if product.hover_image %}
+                                            <img class="hover-img" src="{{ product.hover_image.url }}" alt="{{ product.name }}">
+                                            {% endif %}
+                                        </div>
+                                    </a>
+                                    <ul class="bb-pro-actions">
+                                        <li class="bb-btn-group">
+                                            <a href="javascript:void(0)"><i class="ri-heart-line"></i></a>
+                                        </li>
+                                        <li class="bb-btn-group">
+                                            <a href="javascript:void(0)" data-link-action="quickview" title="Quick view" data-bs-toggle="modal" data-bs-target="#bry_quickview_modal">
+                                                <i class="ri-eye-line"></i>
+                                            </a>
+                                        </li>
+                                        <li class="bb-btn-group">
+                                            <a href="compare.html"><i class="ri-repeat-line"></i></a>
+                                        </li>
+                                        <li class="bb-btn-group">
+                                            <a href="javascript:void(0)"><i class="ri-shopping-bag-4-line"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="bb-pro-contact">
+                                    <div class="bb-pro-subtitle">
+                                        <a href="">{{ product.category.name }}</a>
+                                        <span class="bb-pro-rating">
+                                            {% for i in "12345" %}
+                                                {% if forloop.counter <= product.rating %}
+                                                    <i class="ri-star-fill"></i>
+                                                {% else %}
+                                                    <i class="ri-star-line"></i>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </span>
+                                    </div>
+                                    <h4 class="bb-pro-title">
+                                        <a href="">{{ product.name }}</a>
+                                    </h4>
+                                    <div class="bb-price">
+                                        <div class="inner-price">
+                                            {% if product.discount_price %}
+                                                <span class="new-price">${{ product.discount_price|floatformat:2 }}</span>
+                                                <span class="old-price">${{ product.price|floatformat:2 }}</span>
+                                            {% else %}
+                                                <span class="new-price">${{ product.price|floatformat:2 }}</span>
+                                            {% endif %}
+                                            {% if product.stock > 0 %}
+                                                <span class="item-left">{{ product.stock }} Left</span>
+                                            {% else %}
+                                                <span class="item-left">Out Of Stock</span>
+                                            {% endif %}
+                                        </div>
+                                        {% if product.weight %}
+                                        <span class="last-items">{{ product.weight }}</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
