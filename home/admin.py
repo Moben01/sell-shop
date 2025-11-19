@@ -35,21 +35,6 @@ class BlogAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     ordering = ('-created_at',)
 
-@admin.register(BlogComment)
-class BlogCommentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'comment', 'image_preview')
-
-    def image_preview(self, obj):
-        if obj.image:
-            return format_html('<img src="{}" width="50" height="50" style="border-radius:50%;">', obj.image.url)
-        return "No image"
-    image_preview.short_description = "Image"
-
-@admin.register(BlogReply)
-class BlogReplyAdmin(admin.ModelAdmin):
-    list_display = ('name', 'comment', 'created_at')
-    search_fields = ('name', 'reply_text')
-
 @admin.register(SocialMediaLinks)
 class SocialMediaLinksAdmin(admin.ModelAdmin):
     list_display = ('whatsapp', 'instagram', 'tiktok')

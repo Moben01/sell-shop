@@ -27,7 +27,7 @@ def home(request):
     single_categories = Category.objects.filter(main_category__isnull=True)
 
     # Get variants marked for main page
-    marked_variants = ProductVariant.objects.filter(show_in_main_page=True).select_related('product', 'color', 'size')
+    marked_variants = ProductVariant.objects.all().select_related('product', 'color', 'size')
 
     # Group by product
     products = []

@@ -42,7 +42,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(Size)
 class SizeAdmin(admin.ModelAdmin):
-    list_display = ['name', 'size']
+    list_display = ['get_select_display', 'size']
 
 
 @admin.register(Color)
@@ -56,14 +56,6 @@ class ProductVariantAdmin(admin.ModelAdmin):
     list_filter = ['product', 'size', 'color']
     search_fields = ['product__name', 'size__name', 'color__name']
     inlines = [ProductVariantImageInline]  # images inline in variant admin
-
-
-# ❌ remove this — do NOT register ProductVariantImage separately
-# @admin.register(ProductVariantImage)
-# class ProductVariantImageAdmin(admin.ModelAdmin):
-#     list_display = ['id', 'variant', 'alt_text', 'image']
-#     readonly_fields = ('id',)
-
 
 @admin.register(Discount)
 class DiscountAdmin(admin.ModelAdmin):

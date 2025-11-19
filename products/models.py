@@ -46,8 +46,6 @@ class Product(models.Model):
     description = models.TextField(blank=True, null=True)
     brand = models.CharField(max_length=100, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    show_in_main_page = models.BooleanField(default=False)  
-
     liked_by = models.ManyToManyField(User, blank=True, related_name='liked_products')
 
     def __str__(self):
@@ -61,11 +59,25 @@ class Product(models.Model):
         return reverse('products:product_details', args=[self.id])
 
 class Size(models.Model):
-    name = models.CharField(max_length=50)
-    size = models.CharField(max_length=50)
+    SIZE_CHOICES = [
+        ('XS', 'Extra Small'),
+        ('S', 'Small'),
+        ('M', 'Medium'),
+        ('L', 'Large'),
+        ('XL', 'Extra Large'),
+        ('XXL', 'Double Extra Large'),
+    ]
+    select = models.CharField(max_length=10, choices=SIZE_CHOICES, blank=True)
+    size = models.CharField(max_length=200, blank=True, help_text="Automatically filled based on selection")
+
+    def save(self, *args, **kwargs):
+        if self.select:
+            # Automatically save the display text (e.g. "Medium") to size
+            self.size = dict(self.SIZE_CHOICES).get(self.select, '')
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.size
+        return f"Size: ({self.size} Select: {self.select})"
 
 
 class Color(models.Model):
@@ -78,19 +90,18 @@ class Color(models.Model):
 
 class ProductVariant(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='variants')
-    size = models.ForeignKey(Size, on_delete=models.CASCADE)
-    color = models.ForeignKey(Color, on_delete=models.CASCADE)
+    size = models.ForeignKey(Size, on_delete=models.CASCADE, blank=True)
+    color = models.ForeignKey(Color, on_delete=models.CASCADE, blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     image = models.ImageField(upload_to="products/main/")
     image_hover = models.ImageField(upload_to="products/main/")
     stock = models.PositiveIntegerField(default=0)
-    show_in_main_page = models.BooleanField(default=False)  
 
     class Meta:
         unique_together = ('product', 'size', 'color')
 
     def __str__(self):
-        return f"{self.product.name} - {self.size.name} - {self.color.name}"
+        return f"{self.product.name} - {self.color.name}"
 
 
 class ProductVariantImage(models.Model):

@@ -243,31 +243,25 @@ def submit_review(request, product_id):
         messages.success(request, "Your review has been submitted successfully!")
         return redirect('products:product_details', id=product.id)
     
-from django.core.paginator import Paginator
-from django.core.paginator import Paginator
-
 def category_products(request, slug):
     category = get_object_or_404(Category, slug=slug)
     products = category.products.all()  # initial queryset
 
-    # Initialize selected filters
-    selected_categories = request.POST.getlist('category')
-    selected_sizes = request.POST.getlist('size')
-    selected_colors = request.POST.getlist('color')
-    min_price = request.POST.get('min_price') or ''
-    max_price = request.POST.get('max_price') or ''
-    is_filter = False
-
     if request.method == 'POST':
-        if selected_categories or selected_sizes or selected_colors or min_price or max_price:
-            is_filter = True  # At least one filter applied
+    
+        size_ids = request.POST.get('size')
+        print(size_ids)
+        color_ids = request.POST.get('color')
+        print(color_ids)
+        min_price = request.POST.get('min_price')
+        print(min_price)
+        max_price = request.POST.get('max_price')
+        print(max_price)
 
-        if selected_categories:
-            products = products.filter(category__id__in=selected_categories).distinct()
-        if selected_sizes:
-            products = products.filter(variants__size__id__in=selected_sizes).distinct()
-        if selected_colors:
-            products = products.filter(variants__color__id__in=selected_colors).distinct()
+        if size_ids:
+            products = products.filter(variants__size__id__in=size_ids).distinct()
+        if color_ids:
+            products = products.filter(variants__color__id__in=color_ids).distinct()
         if min_price:
             products = products.filter(variants__price__gte=min_price).distinct()
         if max_price:
@@ -279,7 +273,7 @@ def category_products(request, slug):
         variants = product.variants.all()
         if not variants.exists():
             continue
-        first_variant = variants.filter(show_in_main_page=True).first() or variants.first()
+        first_variant = variants.all().first() or variants.first()
 
         colors = [{
             'color_name': v.color.name,
@@ -310,29 +304,14 @@ def category_products(request, slug):
             'has_discount': discount is not None,
         })
 
-    # Pagination
-    paginator = Paginator(product_data, 12)
-    page_number = request.GET.get('page')
-    products_page = paginator.get_page(page_number)
-
     context = {
         'category': category,
-        'products': products_page,
+        'products': product_data,
         'sizes': Size.objects.all(),
         'colors': Color.objects.all(),
-        'all_categories': Category.objects.filter(products__isnull=False).distinct(),
-        
-        'selected_categories': selected_categories,
-        'selected_sizes': selected_sizes,
-        'selected_colors': selected_colors,
-        'min_price': min_price,
-        'max_price': max_price,
-        'is_filter': is_filter,
     }
 
     return render(request, 'category/products.html', context)
-
-
 
 @login_required
 def toggle_like(request, product_id):
