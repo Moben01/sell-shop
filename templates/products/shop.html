@@ -1,0 +1,249 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<main class="wrapper sb-default">
+
+
+    <!-- Main Content -->
+    <div class="mn-main-content">
+        <div class="mn-breadcrumb m-b-30">
+            <div class="row">
+                <div class="col-12">
+                    <div class="row gi_breadcrumb_inner">
+                        <div class="col-md-6 col-sm-12">
+                            <h2 class="mn-breadcrumb-title">Shop Page</h2>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <!-- mn-breadcrumb-list start -->
+                            <ul class="mn-breadcrumb-list">
+                                <li class="mn-breadcrumb-item"><a href="/">Home</a></li>
+                                <li class="mn-breadcrumb-item active">Shop Page</li>
+                            </ul>
+                            <!-- mn-breadcrumb-list end -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xxl-12">
+                <!-- Shop section -->
+                <section class="mn-shop padding-tb-30">
+                    <div class="row">
+                        <div class="mn-shop-rightside col-lg-9 col-md-12">
+                            <!-- Shop Top Start -->
+                            <div class="mn-pro-list-top d-flex">
+                                <div class="col-md-6 mn-grid-list">
+                                    <div class="mn-gl-btn">
+                                        <button class="grid-btn btn-grid active">
+                                            <i class="ri-gallery-view-2"></i>
+                                        </button>
+                                        <button class="grid-btn btn-list">
+                                            <i class="ri-list-check-2"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mn-sort-select">
+                                </div>
+                            </div>
+                            <!-- Shop Top End -->
+
+                            <!-- Shop content Start -->
+                            <div class="shop-pro-content">
+                                <div class="shop-pro-inner">
+                                   <div class="row">
+                                    {% for i in products %}
+                                    <div class="col-md-4 col-sm-6 col-xs-6 m-b-24 mn-product-box pro-gl-content">
+                                        <div class="mn-product-card"
+                                            data-original-main="{{ i.first_variant.image.url }}"
+                                            data-original-hover="{{ i.first_variant.image_hover.url }}">
+                                        <div class="mn-product-img">
+                                            <div class="lbl">
+                                            <span class="new">{{ i.product.category.name }}</span>
+                                            </div>
+                                            <div class="mn-img">
+                                            <a href="{% url 'products:product_details' i.product.id %}" class="image">
+                                                <img class="main-img"
+                                                    src="{{ i.first_variant.image.url }}"
+                                                    alt="{{ i.product.name }}">
+                                                <img class="hover-img"
+                                                    src="{{ i.first_variant.image_hover.url }}"
+                                                    alt="{{ i.product.name }}">
+                                            </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="mn-product-detail">
+                                            <div class="cat">
+                                            <a href="#">{{ i.product.category.name }}</a>
+                                                <ul>
+                                                    {% for s in i.sizes %}
+                                                        <li>{{ s|upper }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                            <h5><a href="{% url 'products:product_details' i.product.id %}">{{ i.product.name }}</a></h5>
+                                            <p class="mn-info">{{ i.product.description }}</p>
+                                            <div class="mn-price">
+                                            <div class="mn-price-new">${{ i.first_variant.price }}</div>
+                                            </div>
+
+                                            <div class="mn-pro-option">
+                                            <div class="mn-pro-color">
+                                                <ul class="mn-opt-swatch mn-change-img">
+                                                {% for c in i.colors %}
+                                                <li>
+                                                    <a href="javascript:void(0);" class="mn-opt-clr-img"
+                                                    data-src="{{ c.image }}"
+                                                    data-src-hover="{{ c.image_hover }}"
+                                                    data-tooltip="{{ c.color_name }}">
+                                                    <span style="background-color:{{ c.color_code }}"></span>
+                                                    </a>
+                                                </li>
+                                                {% endfor %}
+                                                </ul>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    </div>
+                                    <script>
+                                    document.addEventListener("DOMContentLoaded", function() {
+                                    document.querySelectorAll(".mn-opt-clr-img").forEach(option => {
+                                        option.addEventListener("mouseenter", function() {
+                                        const card = this.closest(".mn-product-card");
+                                        const mainImg = card.querySelector(".main-img");
+                                        const hoverImg = card.querySelector(".hover-img");
+
+                                        mainImg.src = this.getAttribute("data-src");
+                                        hoverImg.src = this.getAttribute("data-src-hover");
+                                        });
+
+                                        option.addEventListener("mouseleave", function() {
+                                        const card = this.closest(".mn-product-card");
+                                        const mainImg = card.querySelector(".main-img");
+                                        const hoverImg = card.querySelector(".hover-img");
+
+                                        mainImg.src = card.dataset.originalMain;
+                                        hoverImg.src = card.dataset.originalHover;
+                                        });
+                                    });
+                                    });
+                                    </script>
+
+                                </div>
+                            </div>
+                            <!--Shop content End -->
+
+                        </div>
+                        <!-- Sidebar Area Start -->
+                        <div class="mn-shop-sidebar col-lg-3 col-md-12 m-t-991">
+                            <div id="shop_sidebar">
+                                <form method="post" class="mn-sidebar-wrap">
+                                {% csrf_token %}
+                                <!-- Sidebar Filters Block -->
+                                <div class="mn-sidebar-block drop">
+                                    <div class="mn-sb-title">
+                                        <h3 class="mn-sidebar-title">Filters</h3>
+                                    </div>
+                                </div>
+
+                                <!-- Sidebar Brand Block -->
+                                <div class="mn-sidebar-block">
+                                    <div class="mn-sb-title">
+                                        <h3 class="mn-sidebar-title">Categories</h3>
+                                    </div>
+                                    <div class="mn-sb-block-content">
+                                        <ul>
+                                            {% for category in categories %}
+                                            <li>
+                                                <div class="mn-sidebar-block-item">
+                                                    <input type="checkbox" name="category" value="{{ category.id }}"
+                                                        {% if category.id in selected_categories %}checked{% endif %}>
+                                                    <a href="javascript:void(0)">
+                                                        <span>{{ category.name }}</span>
+                                                    </a>
+                                                    <span class="checked"></span>
+                                                </div>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- Sidebar Weight Block (Sizes) -->
+                                <div class="mn-sidebar-block">
+                                    <div class="mn-sb-title">
+                                        <h3 class="mn-sidebar-title">Sizes</h3>
+                                    </div>
+                                    <div class="mn-sb-block-content">
+                                        <ul>
+                                            {% for size in sizes %}
+                                            <li>
+                                                <div class="mn-sidebar-block-item">
+                                                    <input type="checkbox" name="size" value="{{ size.id }}"
+                                                        {% if size.id in selected_sizes %}checked{% endif %}>
+                                                    <a href="javascript:void(0)">{{ size.size }}</a>
+                                                    <span class="checked"></span>
+                                                </div>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- Sidebar Color Block -->
+                                <div class="mn-sidebar-block color-block mn-sidebar-block-clr">
+                                    <div class="mn-sb-title">
+                                        <h3 class="mn-sidebar-title">Colors</h3>
+                                    </div>
+                                    <div class="mn-sb-block-content">
+                                        <ul>
+                                            {% for color in colors %}
+                                            <li>
+                                                <div class="mn-sidebar-block-item">
+                                                    <input type="checkbox" name="color" value="{{ color.id }}"
+                                                        {% if color.id in selected_colors %}checked{% endif %}>
+                                                    <span class="mn-clr-block" style="background-color: {{ color.color }}"></span>
+                                                    <span class="checked"></span>
+                                                </div>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- Sidebar Price Block -->
+                                <div class="mn-sidebar-block">
+                                    <div class="mn-sidebar-block">
+                                        <div class="mn-sb-title"><h3 class="mn-sidebar-title">Price</h3></div>
+                                        <div class="mn-sb-block-content">
+                                            <input type="number" placeholder="From" name="min_price" value="{{ request.POST.min_price }}" class="mt-2" required>
+                                            <input type="number" placeholder="To" name="max_price" value="{{ request.POST.max_price }}" class="mt-2" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Apply Button -->
+                                <div class="text-center mt-3">
+                                    <button type="submit" class="btn btn-primary btn-sm">Apply Filters</button>
+                                    {% if is_filter == True %}
+                                    <a href="{% url 'products:shop' %}" class="btn btn-danger btn-sm">Cancle Filter</a>
+                                    {% endif %}
+                                </div>
+                            </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+
+</main>
+
+{% endblock %}

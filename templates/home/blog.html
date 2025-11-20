@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Main Content -->
+<div class="mn-main-content">
+    <div class="mn-breadcrumb m-b-30">
+        <div class="row">
+            <div class="col-12">
+                <div class="row gi_breadcrumb_inner">
+                    <div class="col-md-6 col-sm-12">
+                        <h2 class="mn-breadcrumb-title">Blog Page</h2>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <!-- mn-breadcrumb-list start -->
+                        <ul class="mn-breadcrumb-list">
+                            <li class="mn-breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="mn-breadcrumb-item active">Blog Page</li>
+                        </ul>
+                        <!-- mn-breadcrumb-list end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row m-b-30">
+        <div class="mn-blogs-rightside col-lg-8 col-md-12">
+            <!-- Blog content Start -->
+            <div class="mn-blogs-content mn-blog">
+                <div class="mn-blogs-inner">
+                    <div class="row">
+                        {% for blog in blogs_record %}
+                        <div class="col-sm-6 col-12 mn-blog-block m-b-24">
+                            <div class="mn-blog-card">
+                                <div class="blog-info">
+                                    <figure class="blog-img"><a href="{% url 'home:blog_detail' blog.slug %}"><img src="{{ blog.image.url }}"
+                                                alt="news imag"></a>
+                                    </figure>
+                                    <div class="detail">
+                                        <label>{{ blog.created_at|date:"F d, Y" }} - <a href="#">{{ blog.category.name }}</a></label>
+                                        <h3><a href="{% url 'home:blog_detail' blog.slug %}">  {{ blog.title }}</a></h3>
+                                        <div class="more-info">
+                                             <p>
+                                            {{ blog.short_description|truncatewords:20 }}
+                                            </p>
+                                            <a href="{% url 'home:blog_detail' blog.slug %}">Read More<i
+                                                    class="ri-arrow-right-double-line"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="col-12 text-center">
+                            <p>No blog posts available yet.</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <!--Blog content End -->
+        </div>
+        <script src="{% static 'assets/js/html.min.js' %}"></script>
+        <!-- Sidebar Area Start -->
+        <div class="mn-blogs-sidebar mn-blogs-leftside col-lg-4 col-md-12 m-t-991">
+            <div class="mn-blog-search">
+                <form class="mn-blog-search-form" action="{% url 'home:search_blog' %}" title="Do Submit The Form Just Write What Do You Want">
+                    <input 
+                           class="form-control" 
+                           placeholder="Search Our Blog" 
+                           type="text"
+                           name="q"
+                           autocomplete="off" 
+                           hx-get='{% url 'home:search_blog' %}' 
+                           hx-trigger="keyup changed delay:500ms" 
+                           hx-target="#blog-search-results">
+
+                    <button class="submit"><i class="ri-search-line"></i></button>
+                </form>
+            </div>
+            <div class="mn-blog-sidebar-wrap">
+                <!-- Sidebar Recent Blog Block -->
+                <div class="mn-sidebar-block mn-sidebar-recent-blog">
+                    <div class="mn-sb-title">
+                        <h3 class="mn-sidebar-title">Results Articles</h3>
+                    </div>
+                    <div class="mn-blog-block-content mn-sidebar-dropdown">
+                        <div id="spinner" class="loader-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <div id="blog-search-results" class="mn-search-list"></div>
+                    </div>
+                </div>
+                <style>
+                .loader-dots {
+                    display: flex;
+                    justify-content: center; /* center horizontally */
+                    align-items: center;     /* center vertically if parent has height */
+                    gap: 6px;                /* space between dots */
+                    margin: 20px 0;          /* optional spacing */
+                }
+
+                .loader-dots span {
+                    width: 10px;
+                    height: 10px;
+                    background-color: #000;
+                    border-radius: 50%;
+                    display: inline-block;
+                    animation: bounce 1.2s infinite ease-in-out;
+                }
+
+                /* Animate each dot with delay */
+                .loader-dots span:nth-child(1) { animation-delay: 0s; }
+                .loader-dots span:nth-child(2) { animation-delay: 0.2s; }
+                .loader-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+                @keyframes bounce {
+                    0%, 80%, 100% { transform: scale(0); }
+                    40% { transform: scale(1); }
+                }
+
+                </style>
+                <script>
+                const spinner = document.getElementById('spinner');
+                // Show spinner on request start
+                document.body.addEventListener('htmx:configRequest', function(event) {
+                spinner.style.display = 'inline-block';
+                });
+                // Hide spinner on request finish (success or failure)
+                document.body.addEventListener('htmx:afterRequest', function(event) {
+                spinner.style.display = 'none';
+                });
+                </script>
+                <!-- Sidebar Recent Blog Block -->
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
